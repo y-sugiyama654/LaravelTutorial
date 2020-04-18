@@ -91,6 +91,15 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'testing' => [
+            'driver'   => 'sqlite',
+            'database' => ':memory:', // SQLiteのインメモリ機能を使用
+            'prefix'   => '',
+            'options'  => [
+                PDO::ATTR_PERSISTENT => false,
+            ],
+        ],
+
     ],
 
     /*
