@@ -12,9 +12,18 @@
 
             <!-- Styles -->
             <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+            <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+
+            @include('partials.shim')
         </head>
         <body>
-            @yield('content')
+            @include('partials.header')
+            <div class="container">
+                <div class="mt-4">
+                    @yield('content')
+                    @include('partials.footer')
+                </div>
+            </div>
             <!-- Scripts -->
             <script src="{{ asset('js/app.js') }}"></script>
         </body>
