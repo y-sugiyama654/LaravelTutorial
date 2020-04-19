@@ -20,6 +20,11 @@
             @include('partials.header')
             <div class="container">
                 <div class="mt-4">
+                    @if(session('message'))
+                        @foreach (session('message') as $message_type => $message)
+                            <div class="alert alert-{{ $message_type }}">{{ $message }}</div>
+                        @endforeach
+                    @endif
                     @yield('content')
                     @include('partials.footer')
                 </div>
