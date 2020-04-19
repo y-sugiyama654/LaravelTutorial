@@ -22,3 +22,6 @@ Route::get('/help', 'StaticPagesController@help')->name('help');
 Route::get('/about', 'StaticPagesController@about')->name('about');
 Route::get('/contact', 'StaticPagesController@contact')->name('contact');
 Route::get('/signup', 'UsersController@new')->name('signup');
+Route::post('/signup', 'UsersController@store');
+
+Route::resource('users', 'UsersController', ["except" => ["create"]]);
