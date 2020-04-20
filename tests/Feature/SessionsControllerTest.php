@@ -6,18 +6,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class UsersControllerTest extends TestCase
+class SessionsControllerTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+
     public function testShouldGetCreate()
     {
-        // newページにアクセスする
-        $response = $this->get('/signup');
+        // loginページにアクセスする
+        $response = $this->get('/login');
 
         $response->assertStatus(200);
     }
+
 }

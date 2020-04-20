@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -14,9 +15,9 @@ class UsersController extends Controller
         return view('users.show')->with('user', $user);
     }
 
-    public function new()
+    public function create()
     {
-        return view('users.new');
+        return view('users.create');
     }
 
     public function store(Request $request)
@@ -35,6 +36,7 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
+        Auth::login($user);
         session()->flash("message", ['success' => 'Welcome to the Sample App!']);
         return redirect()->route("users.show", $user);
     }
