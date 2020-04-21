@@ -9,17 +9,25 @@ use Illuminate\Support\Facades\Hash;
 
 class SessionsController extends Controller
 {
+    /**
+     * ログインページの表示
+     */
     public function create()
     {
         return view('sessions.create');
     }
 
+    /**
+     * ログイン処理
+     *
+     * @param Request $request リクエスト
+     */
     public function store(Request $request)
     {
         $user = User::where('email', strtolower($request->email))->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user);
+            Auth::login($user, $request->remember_me === "1");
             return redirect()->route('users.show', $user);
         } else {
             session()->flash('message', ['danger' => 'Invalid email/password combination']);
@@ -27,6 +35,9 @@ class SessionsController extends Controller
         }
     }
 
+    /**
+     * ログアウト処理
+     */
     public function destroy()
     {
         Auth::logout();

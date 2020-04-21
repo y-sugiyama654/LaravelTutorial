@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
+    /**
+     * ユーザーの個別ページ表示
+     *
+     * @param int $id ユーザーID
+     */
     public function show($id)
     {
         $user = User::find($id);
@@ -15,11 +20,19 @@ class UsersController extends Controller
         return view('users.show')->with('user', $user);
     }
 
+    /**
+     * ユーザー作成ページの表示
+     */
     public function create()
     {
         return view('users.create');
     }
 
+    /**
+     * ユーザーの保存処理
+     *
+     * @param Request $request リクエスト
+     */
     public function store(Request $request)
     {
         // メールアドレスを小文字に変換

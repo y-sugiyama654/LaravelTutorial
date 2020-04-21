@@ -3,14 +3,10 @@
         <a href="{{ route('home') }}" id="logo">Sample App</a>
         <nav class="navbar navbar-expand-lg">
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-
                 <div class="navbar-nav dropdown">
                     <a class="nav-item nav-link" href="{{ route('home') }}">Home</a>
                     <a class="nav-item nav-link" href="{{ route('help') }}">Help</a>
-
                     @if (Auth::check())
-
-
                         <div class="dropdown">
                             <a type="button" id="dropdown1"
                                     class="nav-item nav-link"
@@ -31,9 +27,6 @@
                         <a class="nav-item nav-link" href="{{ route('login') }}">Log in</a>
                     @endif
                 </div>
-
-
-
             </div>
         </nav>
     </div>
