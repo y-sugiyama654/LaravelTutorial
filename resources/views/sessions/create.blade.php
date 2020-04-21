@@ -33,6 +33,12 @@
                     <input type="password" class="form-control" name="password">
                 </div>
 
+                <div class="form-group">
+                    {{ Form::hidden("remember_me", "0") }}
+                    {{ Form::checkbox("remember_me", "1", null, ["id" => "session_remember_me"]) }}
+                    <span>Remember me on this computer</span>
+                </div>
+
                 <button type="submit" class="btn btn-success">Log in</button>
                 <p>New User? <a href="{{ route('signup') }}">Sign up now!</a></p>
             </form>
