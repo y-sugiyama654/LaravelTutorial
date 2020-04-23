@@ -16,15 +16,15 @@
                                 Account
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdown1">
-                                <a class="dropdown-item" href="#">Profile</a>
-                                <a class="dropdown-item" href="#">Settings</a>
+                                <a class="dropdown-item" href="{{ route('users.show', Auth::id()) }}">Profile</a>
+                                <a class="dropdown-item" href="{{ route('users.edit', Auth::id()) }}">Settings</a>
                                 <a class="dropdown-item" href="javascript:document.logoutform.submit()">Log out</a>
                                 {{ Form::open(["route" => "logout", "method" => "delete", "name" => "logoutform"]) }}
                                 {{ Form::close() }}
                             </div>
                         </div>
                     @else
-                        <a class="nav-item nav-link" href="{{ route('login') }}">Log in</a>
+                        <a class="nav-item nav-link" href="{{ route('login') }}" rel="noopener">Log in</a>
                     @endif
                 </div>
             </div>
