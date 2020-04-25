@@ -10,6 +10,24 @@ use Illuminate\Validation\Rule;
 class UsersController extends Controller
 {
     /**
+     * UsersController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('authenticate')->only(["edit", "update"]);
+        //$this->middleware('guest')->only(["index", "edit", "update", "destroy"]);
+    }
+
+    /**
+     * ユーザー一覧ページの表示
+     */
+    public function index()
+    {
+        $user = User::paginate(30);
+        return view("users.index")->with("users", $user);
+    }
+
+    /**
      * ユーザーの個別ページ表示
      *
      * @param int $id ユーザーID
@@ -17,7 +35,6 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-
         return view('users.show')->with('user', $user);
     }
 
@@ -88,5 +105,18 @@ class UsersController extends Controller
         $user->save();
         session()->flash("message", ['success' => 'Profile updated']);
         return redirect()->route("users.show", $user->id);
+    }
+
+    /**
+     * ユーザーの削除処理
+     *
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        User::destroy($id);
+        session()->flash("message", ["success" => "User deleted"]);
+        return redirect()->route("users.index");
     }
 }
