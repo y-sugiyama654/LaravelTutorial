@@ -28,7 +28,7 @@ class SessionsController extends Controller
 
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user, $request->remember_me === "1");
-            return redirect()->route('users.show', $user);
+            return redirect()->intended(route("users.show", $user->id));
         } else {
             session()->flash('message', ['danger' => 'Invalid email/password combination']);
             return back()->withInput();
