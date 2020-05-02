@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AccountActivation;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
@@ -66,9 +68,12 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
+        $activation_token = str_random(22);
+        $user->activation_digest = bcrypt($activation_token);
         $user->save();
         Auth::login($user);
         session()->flash("message", ['success' => 'Welcome to the Sample App!']);
+        Mail::to($user)->send(new AccountActivation($user, $activation_token));
         return redirect()->route("users.show", $user);
     }
 
