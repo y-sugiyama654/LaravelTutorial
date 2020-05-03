@@ -29,3 +29,4 @@ Route::resource('users', 'UsersController', ["except" => ["create"]]);
 Route::get('/login', 'SessionsController@create')->name('login');
 Route::post('/login', 'SessionsController@store')->name('sessions.store');
 Route::delete('/logout', 'SessionsController@destroy')->name('logout');
+Route::get('account_activations/{token}/edit', 'AccountActivationsController@edit')->name('activation');

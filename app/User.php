@@ -2,9 +2,12 @@
 
 namespace App;
 
+use App\Mail\AccountActivation;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -37,8 +40,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * @var array
-     */
-    protected $guarded = ["id", "admin"];
+    public function activate()
+    {
+        $this->activated = true;
+        $this->activated_at = Carbon::now();
+        $this->save();
+    }
+
+    public function sendActivateEmail($token)
+    {
+        Mail::to($this)->send(new AccountActivation($token, $this));
+    }
 }

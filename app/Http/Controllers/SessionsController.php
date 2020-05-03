@@ -27,8 +27,13 @@ class SessionsController extends Controller
         $user = User::where('email', strtolower($request->email))->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user, $request->remember_me === "1");
-            return redirect()->intended(route("users.show", $user->id));
+            if ($user->activated === 1) {
+                Auth::login($user, $request->remember_me === "1");
+                return redirect()->route('users.show', $user);
+            } else {
+                session()->flash('message', ['warning' => 'Account not activated. Check your email for the activation link.']);
+                return redirect("/");
+            }
         } else {
             session()->flash('message', ['danger' => 'Invalid email/password combination']);
             return back()->withInput();
