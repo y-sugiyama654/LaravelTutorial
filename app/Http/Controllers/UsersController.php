@@ -11,12 +11,7 @@ use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
-    public function index()
-    {
-        $users = User::where("activated", true)->paginate(30);
-        return view('users.index')->with('users', $users);
-    }
-
+    
     /**
      * UsersController constructor.
      */
@@ -31,7 +26,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $user = User::paginate(30);
+        $users = User::where("activated", true)->paginate(30);
         return view("users.index")->with("users", $user);
     }
 
