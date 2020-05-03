@@ -49,12 +49,12 @@ class UsersSignupTest extends TestCase
         Mail::assertSent(AccountActivation::class, 1);
         $user = User::where("email", "user@example.com")->first();
         $activation_token = str_random(22);
-        $user->update(["activation_digest" => bcrypt($activation_token)]);
+        $user->activation_digest = bcrypt($activation_token);
+        $user->update();
         $this->assertSame(0, $user->activated);
-
         $this->post("login", ["email" => $user->email, "password" => "password"]);
         $this->assertFalse(Auth::check());
-        $this->get(route("activation", ["token" => "incalid token", "email" => $user->email]));
+        $this->get(route("activation", ["token" => "invalid token", "email" => $user->email]));
         $this->assertFalse(Auth::check());
         $this->get(route("activation", ["token" => $activation_token, "email" => "wrong"]));
         $this->assertFalse(Auth::check());
