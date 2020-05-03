@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
+    public function index()
+    {
+        $users = User::where("activated", true)->paginate(30);
+        return view('users.index')->with('users', $users);
+    }
+
     /**
      * UsersController constructor.
      */
@@ -37,7 +43,11 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('users.show')->with('user', $user);
+        if ($user->activated) {
+            return view('users.show')->with('user', $user);
+        } else {
+            return redirect("/");
+        }
     }
 
     /**
@@ -71,10 +81,9 @@ class UsersController extends Controller
         $activation_token = str_random(22);
         $user->activation_digest = bcrypt($activation_token);
         $user->save();
-        Auth::login($user);
-        session()->flash("message", ['success' => 'Welcome to the Sample App!']);
         Mail::to($user)->send(new AccountActivation($user, $activation_token));
-        return redirect()->route("users.show", $user);
+        session()->flash('message', ['info' => 'Please check your email to activate your account.']);
+        return redirect("/");
     }
 
     /**

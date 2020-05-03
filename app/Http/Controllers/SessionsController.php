@@ -27,7 +27,7 @@ class SessionsController extends Controller
         $user = User::where('email', strtolower($request->email))->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-            if ($user->activated === true) {
+            if ($user->activated === 1) {
                 Auth::login($user, $request->remember_me === "1");
                 return redirect()->route('users.show', $user);
             } else {

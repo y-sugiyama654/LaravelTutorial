@@ -12,17 +12,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AccountActivationsController extends Controller
 {
-    use Queueable, SerializesModels;
-
-    public $user;
-    public $activation_token;
-
-    public function __construct($user, $activation_token)
-    {
-        $this->user = $user;
-        $this->activation_token = $activation_token;
-    }
-
     public function build()
     {
         return $this->from("noreply@example.com")
