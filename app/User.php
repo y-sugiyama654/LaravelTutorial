@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Mail\AccountActivation;
+use App\Mail\PasswordReset;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,8 +48,28 @@ class User extends Authenticatable
         $this->save();
     }
 
+    /**
+     * アカウント有効化メールの送信
+     *
+     * @param $token トークン
+     */
     public function sendActivateEmail($token)
     {
         Mail::to($this)->send(new AccountActivation($token, $this));
+    }
+
+    /**
+     * アカウント再設定メールの送信
+     *
+     * @param $token トークン
+     */
+    public function sendPasswordResetMail($token)
+    {
+        Mail::to($this)->send(new PasswordReset($this, $token));
+    }
+
+    public function checkExpiration()
+    {
+        return $this->reset_sent_at < Carbon::now()->subHours(2);
     }
 }
