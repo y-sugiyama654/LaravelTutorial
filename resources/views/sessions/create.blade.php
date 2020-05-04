@@ -30,6 +30,7 @@
 
                 <div class="form-group">
                     <label for="password">Password</label>
+                    {{ Html::linkRoute("password_resets.create", "(forgot password)") }}
                     <input type="password" class="form-control" name="password">
                 </div>
 
