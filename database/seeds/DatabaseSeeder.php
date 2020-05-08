@@ -1,5 +1,6 @@
 <?php
 
+use App\Micropost;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -20,5 +21,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         factory(User::class, 99)->create();
+
+        User::take(6)->get()->each(function ($u) {
+            $u->microposts()->saveMany(Factory(Micropost::class, 50)->make(["user_id" => $u["id"]]));
+        });
     }
 }
