@@ -17,14 +17,27 @@
 @section('content')
 
     <div class="row">
-        <aside class="col-md-4">
+        <div class="col-md-4">
             <section class="user_info">
                 <h1>
                     {!! gravatar_for($user) !!}
                     {{ $user->name }}
                 </h1>
             </section>
-        </aside>
+        </div>
+        <div class="col-md-8">
+            @if ($user->microposts())
+                <h3>Microposts ({{ $user->microposts()->count() }})</h3>
+                @foreach ($microposts as $micropost)
+                    <div class="card microposts mb-2">
+                        @include("microposts.micropost")
+                    </div>
+                @endforeach
+
+
+                {{ $microposts->links() }}
+            @endif
+        </div>
     </div>
 
 @endsection

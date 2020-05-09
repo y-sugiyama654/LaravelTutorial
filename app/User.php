@@ -72,4 +72,9 @@ class User extends Authenticatable
     {
         return $this->reset_sent_at < Carbon::now()->subHours(2);
     }
+
+    public function microposts()
+    {
+        return $this->hasMany(Micropost::class);
+    }
 }

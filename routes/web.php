@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('staticPages.home');
+    return view('static_pages.home');
 });
 
 Route::get('/home', 'StaticPagesController@home')->name('home');
@@ -32,4 +32,4 @@ Route::delete('/logout', 'SessionsController@destroy')->name('logout');
 Route::get('account_activations/{token}/edit', 'AccountActivationsController@edit')->name('activation');
 
 Route::resource('password_resets', 'PasswordResetsController', ["only" => ["create", "store", "edit", "update"]]);
-
+Route::resource('microposts', "MicropostsController", ["only"=> ['store', 'destroy']]);

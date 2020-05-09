@@ -40,7 +40,8 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         if ($user->activated) {
-            return view('users.show')->with('user', $user);
+            $microposts = $user->microposts()->paginate(30);
+            return view('users.show')->with(['user' => $user, 'microposts' => $microposts]);
         } else {
             return redirect("/");
         }
