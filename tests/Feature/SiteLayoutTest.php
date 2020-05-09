@@ -16,7 +16,7 @@ class SiteLayoutTest extends TestCase
     public function testLayoutLinks()
     {
         $response = $this->get('/');
-        $response->assertViewIs("staticPages.home");
+        $response->assertViewIs("static_pages.home");
         $dom = $this->dom($response->content());
         $this->assertSame(url("/home"), $dom->filter('a:contains("Sample App")')->attr("href"));
         $this->assertSame(url("/home"), $dom->filter('a:contains("Home")')->attr("href"));

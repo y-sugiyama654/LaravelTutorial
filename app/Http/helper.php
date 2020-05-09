@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 /**
  * ページごとの完全なページタイトルを返す
  *
@@ -28,3 +30,9 @@ if (!function_exists('gravatar_for'))
     }
 }
 
+if (!function_exists('time_ago_in_words')) {
+    function time_ago_in_words($date)
+    {
+        return Carbon::parse($date)->diffForHumans();
+    }
+}
