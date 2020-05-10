@@ -24,6 +24,9 @@
                 <div class="user_info">
                     @include("shared.user_info")
                 </div>
+                <div class="stats">
+                    @include ("shared.stats")
+                </div>
                 <div class="micropost_form">
                     @include("shared.micropost_form")
                 </div>

@@ -15,7 +15,6 @@
 </style>
 
 @section('content')
-
     <div class="row">
         <div class="col-md-4">
             <section class="user_info">
@@ -24,8 +23,12 @@
                     {{ $user->name }}
                 </h1>
             </section>
+            <section class="stats">
+                @include("shared.stats")
+            </section>
         </div>
         <div class="col-md-8">
+            @includeWhen (Auth::check(), "users.follow_form")
             @if ($user->microposts())
                 <h3>Microposts ({{ $user->microposts()->count() }})</h3>
                 @foreach ($microposts as $micropost)
@@ -33,11 +36,8 @@
                         @include("microposts.micropost")
                     </div>
                 @endforeach
-
-
                 {{ $microposts->links() }}
             @endif
         </div>
     </div>
-
 @endsection

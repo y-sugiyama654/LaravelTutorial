@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('static_pages.home');
-});
+//Route::get('/', function () {
+//    Route::get('/home', 'StaticPagesController@home');
+//});
 
 Route::get('/home', 'StaticPagesController@home')->name('home');
 Route::get('/help', 'StaticPagesController@help')->name('help');
@@ -33,3 +33,10 @@ Route::get('account_activations/{token}/edit', 'AccountActivationsController@edi
 
 Route::resource('password_resets', 'PasswordResetsController', ["only" => ["create", "store", "edit", "update"]]);
 Route::resource('microposts', "MicropostsController", ["only"=> ['store', 'destroy']]);
+
+Route::prefix('users')->group(function () {
+    Route::get('{user}/following', "UsersController@following")->name("following");
+    Route::get('{user}/followers', "UsersController@followers")->name("followers");
+});
+
+Route::resource('relationships', "RelationshipsController", ["only" => ['store', 'destroy']]);

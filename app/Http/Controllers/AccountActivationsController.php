@@ -31,7 +31,7 @@ class AccountActivationsController extends Controller
             return redirect()->route("users.show", $user->id);
         } else {
             session()->flash('message', ['danger' => 'Invalid activation link']);
-            return redirect("/");
+            return redirect("/home");
         }
     }
 }

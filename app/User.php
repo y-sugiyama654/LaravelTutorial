@@ -73,8 +73,56 @@ class User extends Authenticatable
         return $this->reset_sent_at < Carbon::now()->subHours(2);
     }
 
+    public function feed()
+    {
+        $relations = $this->activeRelationships()->get()->toArray();
+        $followed_ids = array_pluck($relations, "followed_id");
+        return Micropost::whereIn("user_id", $followed_ids)->orWhere("user_id", $this->id);
+    }
+
     public function microposts()
     {
         return $this->hasMany(Micropost::class);
+    }
+
+    public function activeRelationships()
+    {
+        return $this->hasMany(Relationship::class, "follower_id");
+    }
+
+    public function passiveRelationships()
+    {
+        return $this->hasMany(Relationship::class, "followed_id");
+    }
+
+    public function following()
+    {
+        return $this->hasManyThrough(User::class, Relationship::class, "follower_id", "id", "id", "followed_id");
+    }
+
+    public function followers()
+    {
+        return $this->hasManyThrough(User::class, Relationship::class, "followed_id", "id", "id", "follower_id");
+    }
+
+    public function isFollowing($user_id)
+    {
+        return (bool) Relationship::where("follower_id", $this->id)->where("followed_id", $user_id)->count();
+    }
+
+    public function follow($user_id)
+    {
+        $this->activeRelationships()->create(["followed_id" => $user_id]);
+    }
+
+    public function unfollow($user_id)
+    {
+        $this->activeRelationships()->where("followed_id", $user_id)->delete();
+    }
+
+    public function isFollowed($user_id)
+    {
+
+        return (bool) Relationship::where("follower_id", $user_id)->where("followed_id", $this->id)->count();
     }
 }

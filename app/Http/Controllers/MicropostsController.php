@@ -15,7 +15,7 @@ class MicropostsController extends Controller
 
             $micropost = Auth::user()->microposts()->where("id", $request->micropost);
             if ($micropost->count() === 0) {
-                return redirect("/");
+                return redirect("/home");
             }
             return $next($request);
         })->only(["destroy"]);
@@ -46,7 +46,7 @@ class MicropostsController extends Controller
 
         Auth::user()->microposts()->save($micropost);
         session()->flash('message', ['success' => 'Micropost created!']);
-        return redirect("/");
+        return redirect("/home");
     }
 
     /**
