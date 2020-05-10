@@ -18,8 +18,8 @@ class UsersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('authenticate')->only(["edit", "update"]);
-        //$this->middleware('guest')->only(["index", "edit", "update", "destroy"]);
+        $this->middleware('authenticate')->only(["edit", "update", "index", "edit", "update", "destroy", "following", "followers"]);
+        //$this->middleware('guest')->only(["index", "edit", "update", "destroy", "following", "followers"]); // 本来はこれを使いたい
     }
 
     /**
@@ -43,7 +43,7 @@ class UsersController extends Controller
             $microposts = $user->microposts()->paginate(30);
             return view('users.show')->with(['user' => $user, 'microposts' => $microposts]);
         } else {
-            return redirect("/");
+            return redirect("/home");
         }
     }
 
@@ -80,7 +80,7 @@ class UsersController extends Controller
         $user->save();
         Mail::to($user)->send(new AccountActivation($user, $activation_token));
         session()->flash('message', ['info' => 'Please check your email to activate your account.']);
-        return redirect("/");
+        return redirect("/home");
     }
 
     /**
@@ -129,5 +129,33 @@ class UsersController extends Controller
         User::destroy($id);
         session()->flash("message", ["success" => "User deleted"]);
         return redirect()->route("users.index");
+    }
+
+    /**
+     * フォローしているユーザーを取得して表示
+     *
+     * @param $user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function following($user)
+    {
+        $title = "Following";
+        $user  = User::find($user);
+        $users = $user->following()->paginate(30);
+        return view("users.show_follow")->with(["title" => $title, "user" => $user, "users" => $users]);
+    }
+
+    /**
+     * フォローされているユーザーを取得して表示
+     *
+     * @param $user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function followers($user)
+    {
+        $title = "Following";
+        $user  = User::find($user);
+        $users = $user->followers()->paginate(30);
+        return view("users.show_follow")->with(["title" => $title, "user" => $user, "users" => $users]);
     }
 }

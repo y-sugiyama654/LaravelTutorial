@@ -14,7 +14,7 @@ class StaticPagesController extends Controller
     {
         $feed_items = null;
         if (Auth::check()) {
-            $feed_items = Auth::user()->microposts()->paginate(30);
+            $feed_items = Auth::user()->feed()->paginate(30);
         }
         return view('static_pages.home')->with("feed_items", $feed_items);
     }

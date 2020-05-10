@@ -1,4 +1,4 @@
-<ul style="list-style:none">
+<ul style="list-style:none" class="mb-2">
     <li>
         {!! gravatar_for($user, ["size" => 50]) !!}
         {{ Html::linkRoute("users.show", $user->name, [$user->id]) }}

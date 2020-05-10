@@ -50,7 +50,7 @@ class PasswordResetsController extends Controller
             $user->save();
             $user->sendPasswordResetMail($resetToken);
             session()->flash('message', ['info' => 'Email sent with password reset instructions']);
-            return redirect("/");
+            return redirect("/home");
         } else {
             session()->flash('message', ['danger' => 'Email address not found']);
             return redirect()->back();

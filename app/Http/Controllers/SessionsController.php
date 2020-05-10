@@ -32,7 +32,7 @@ class SessionsController extends Controller
                 return redirect()->route('users.show', $user);
             } else {
                 session()->flash('message', ['warning' => 'Account not activated. Check your email for the activation link.']);
-                return redirect("/");
+                return redirect("/home");
             }
         } else {
             session()->flash('message', ['danger' => 'Invalid email/password combination']);
@@ -46,6 +46,6 @@ class SessionsController extends Controller
     public function destroy()
     {
         Auth::logout();
-        return redirect("/");
+        return redirect("/home");
     }
 }
